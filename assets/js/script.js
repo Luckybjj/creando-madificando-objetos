@@ -1,7 +1,7 @@
 
 // DESAFÍO CREANDO Y MODIFICANDO OBJETOS
 
-// 1) CREAR FUNCIÓN CONSTRUCTORA
+// 1) CREAR FUNCIÓN CONSTRUCTORA PACIENTE
 function Paciente(nombre, edad, rut, diagnostico) {
     //a.- Asignámos el valor de los parámetros
     var _nombre = nombre;
@@ -10,7 +10,7 @@ function Paciente(nombre, edad, rut, diagnostico) {
     var _diagnostico = diagnostico;
 
     // ENCAPSULAMIENTO DE LA FUNCIÓN CONSTRUCTORA PACIENTE
-    // b.- Implementamos método Object.define
+    // b.- Implementamos método Object.defineProperty
     // c. Inicializamos la propiedades
     // d.- Función get y set
 
@@ -61,203 +61,184 @@ function Paciente(nombre, edad, rut, diagnostico) {
     });
 }
 
-// 2.- ENCAPSULAMIENTO DE LA FUNCIÓN COSTRUCTORA CONSULTORIO
+// 2.-  CREAR FUNCIÓN CONSTRUCTURA CONSULTORIO
 
-function Consultorio (nombre, paciente){
+function Consultorio(nombre, paciente) {
     var _nombre = nombre;
-    var _paciente =  paciente;
+    var _paciente = paciente;
 
-    Object.defineProperty (this, "_nombre",{
+    //.- ENCAPSULAMIENTO DE LA FUNCIÓN COSTRUCTORA CONSULTORIO
+
+    Object.defineProperty(this, "_nombre", {
         get: function () {
-            return _nombre            
+            return _nombre
         },
         set: function (nuevoNombre) {
             _nombre = nuevoNombre;
         }
     });
 
-    Object.defineProperty (this, "_paciente",{
+    Object.defineProperty(this, "_paciente", {
         get: function () {
-            return _paciente            
+            return _paciente
         },
         set: function (nuevoPaciente) {
             _paciente = nuevoPaciente;
         }
-    });   
+    });
 }
 
 // 3.- AGREGAR MÉTODOS y FUNCIONALIDADES MEDIANTE LA PROPIEDAD PROTOTYPE
 
-// .-PACIENTE
-// retornar nombre
-Paciente.prototype.getNombre = function(){
+// .- PACIENTE
+// Retornar nombre
+Paciente.prototype.getNombre = function () {
     return this._nombre;
 };
-// modificar o asignar nombre
-Paciente.prototype.setNombre = function(nuevoNombre){
+// Modificar o asignar nombre
+Paciente.prototype.setNombre = function (nuevoNombre) {
     this._nombre = nuevoNombre;
 };
-// retornar edad
-Paciente.prototype.getEdad = function(){
+// Retornar edad
+Paciente.prototype.getEdad = function () {
     return this._edad;
 };
-// modificar o asignar edad
-Paciente.prototype.setEdad = function(nuevaEdad){
+// Modificar o asignar edad
+Paciente.prototype.setEdad = function (nuevaEdad) {
     this._edad = nuevaEdad;
 };
-// retornar rut
-Paciente.prototype.getRut = function(){
+// Retornar rut
+Paciente.prototype.getRut = function () {
     return this._rut;
 };
-// modificar o asignar rut
-Paciente.prototype.setRut = function(nuevoRut){
+// Modificar o asignar rut
+Paciente.prototype.setRut = function (nuevoRut) {
     this._rut = nuevoRut;
 };
-// retornar diagnostico
-Paciente.prototype.getDiagnostico = function(){
+// Retornar diagnostico
+Paciente.prototype.getDiagnostico = function () {
     return this._diagnostico;
 };
-// modificar o asignar diagnostigo
-Paciente.prototype.setDiagnostico = function(nuevoDiagnostico){
+// Modificar o asignar diagnostigo
+Paciente.prototype.setDiagnostico = function (nuevoDiagnostico) {
     this._diagnostico = nuevoDiagnostico;
 };
 
 // .- CONSULTORIO
-// retornar nombre
-Consultorio.prototype.getNombre = function(){
+// Retornar nombre del Consultorio
+Consultorio.prototype.getNombre = function () {
     return this._nombre;
 };
-// modificar o asignar nombre
-Consultorio.prototype.setNombre = function(nuevoNombre){
+// Modificar o asignar nombre del Consultorio
+Consultorio.prototype.setNombre = function (nuevoNombre) {
     this._nombre = nuevoNombre;
 };
 
-/*
+// MOSTRAR PACIENTES 
+Consultorio.prototype.mostrarPacientes = function () {
+    this._paciente.forEach(function (paciente) {
+        console.log(
+            "\nNombre: " + paciente._nombre +
+            "\nEdad: " + paciente._edad +
+            "\nRut: " + paciente._rut +
+            "\nDiagnostico: " + paciente._diagnostico + "\n\n"
+        );
 
-// Consultar o retorna el Nombre de los pacientes desde PACIENTE
-Paciente.prototype.getNombrePaciente = function () {
-    return this._nombre;
-}
-// Consultar o retorna el Nombre de los pacientes desde CONSULTORIO
-Consultorio.prototype.getNombreConsultorio = function () {
-    return this._nombre;
+    });
 }
 
-// Almacenar y/o modificar datos de los pacientes desde PACIENTE
-Paciente.prototype.setNombrePaciente = function (nuevoNombre) {
-    this._nombre = nuevoNombre;
-}
-// Almacenar y/o modificar datos de los pacientes desde CONSULTORIO
-Consultorio.prototype.setNombreConsultorio = function (nuevoNombre) {
-    this._nombre = nuevoNombre;
-}
-*/
+// BUSCAR PACIENTES POR SU NOMBRE
+Consultorio.prototype.buscarPaciente = function (nombre) {
+    this._paciente.filter(function (paciente) {
+        return paciente._nombre == nombre;
+    }).forEach(function (paciente) {
+        console.log(
+            "\nPaciente Encontrado" +
+            "\n    Nombre: " + paciente._nombre +
+            "\n    Edad: " + paciente._edad +
+            "\n    Rut: " + paciente._rut +
+            "\n    Diagnostico: " + paciente._diagnostico + "\n\n");
+    });
+
+    var encontrado = false
+    this._paciente.forEach(function (paciente) {
+        if (paciente._nombre == nombre) {
+            encontrado = true
+        }
+    })
+    if (encontrado == false) {
+        console.log("\nEl paciente " + nombre + " no se encuentra listado en este consultorio\n\n");
+    }
+};
+
 
 // 4.- INSTANCIAR LOS OBJETOS
-var pacient1 = new Paciente("Juan", 35, "16.439.877-5", "sirrosis");
-console.log(pacient1);
-// Muestra el nombre de los pacientes y datos personales
+// Pacientes
+var p1 = new Paciente("Juan Perez", 35, "16.439.877-5", "sirrosis");
+console.log(p1);
+var p2 = new Paciente("Pedro Toro", 25, "13.439.437-9", "resfrio común");
+console.log(p2);
+var p3 = new Paciente("Diego Alves", 55, "9.789.743-5", "covid-19");
+console.log(p3);
+var p4 = new Paciente("Camilo Rojas", 23, "23.439.877-5", "colera");
+console.log(p4);
+var p5 = new Paciente("Andres Gatica", 21, "24.439.877-5", "gripe porcina");
+console.log(p4);
+
+// Consultrorio
+var c1 = new Consultorio("Clavo Makena", [p1, p2, p3, p4, p5]);
+console.log(c1);
 
 
-var consult1 = new Consultorio(pacient1._nombre, pacient1);
-console.log(consult1);
-// Muestra el nombre y datos del paciente
+// 5.- PROBANDO LAS FUNCIONES
+
+// Retorna el Nombre del Consultorio
+console.log(c1.getNombre());
+console.log()
+
+// Retorna el Dato que se requiere del Paciente 1
+console.log(p1.getNombre());
+console.log(p1.getEdad());
+console.log(p1.getRut());
+console.log(p1.getDiagnostico());
 
 
-// retorna el Nombre de los pacientes desde CONSULTORIO
-console.log(consult1.getNombre()); 
-
-// retorna el Nombre de los pacientes desde PACIENTE
-console.log(pacient1.getNombre()); 
-
-
-
-//modificar datos de los pacientes desde PACIENTE
-//pacient1.setNombrePaciente('Andres');      
-//console.log(pacient1.getNombrePaciente());
-
-//modificar datos de los pacientes desde CONSULTORIO
-consult1.setNombre('Miguel');      
-console.log(consult1.getNombre());
+// Retorna el Dato que se requiere del Paciente 3
+console.log(p3.getNombre());
+console.log(p3.getEdad());
+console.log(p3.getRut());
+console.log(p3.getDiagnostico());
 
 
+// Modificar datos del Paciente 3
+p3.setNombre('Carlos Miranda');
+p3.setDiagnostico('Q.E.P.D ')
+console.log(p3.getNombre());
+console.log(p3.getDiagnostico());
+console.log(p3)
 
+// Modificar datos del Conslturio 1
+c1.setNombre('Cesfam el Palomar');
+console.log(c1.getNombre());
+console.log(c1);
 
+// Funcion MOSTRAR todos los pacientes del Consultorio(c1)
+c1.mostrarPacientes();
 
-
-/*
-// MOSTRAR PACIENTES 1
-Consultorio.prototype.mostrarPacientes = function () {
-    this.pacientes.map(function (paciente) {
-        console.log(`Nombre: ${paciente._getNombre}   Edad: ${paciente._getEdad}  Rut: ${paciente._getRut}   Diagnostico: ${paciente._getDiagnostico}`);
-    })
-}
-
-// BUSCAR PACIENTES 1
-Consultorio.prototype.buscarPaciente = function (nombre) {
-    var encontrado = false
-    this.pacientes.map(function (paciente) {
-        if(paciente._getNombre == nombre) {encontrado = true }
-    })
-
-    if(encontrado == true) { 
-        console.log(`El paciente "${nombre}" se encuentra en el listado`);
-    }else{
-        console.log(`El paciente "${nombre}" no se encuentra en el listado`);
-    } 
-}
-
-*/
+// Funcion BUSCAR pacientes listados en el Consultorio(c1)
+c1.buscarPaciente("Juan Perez")
+c1.buscarPaciente("Andres Gatica");
+c1.buscarPaciente("Carlos Miranda")
+// Pacientes que no se encuentran listados
+c1.buscarPaciente("Diego Alves"); //Este fue el paciente que se modifico en la linea 217
+c1.buscarPaciente("Diego Maradona")
+c1.buscarPaciente("Pedro Carcuro")
 
 
 
-/*
-// MOSTRAR PACIENTES 2
-Consultorio.prototype.allPacientes = function(){
-    this.pacientes.forEach(p => {
-        console.log(`> Paciente: ${p._getNombre} | ${p._getEdad} | ${p._getRut} | ${p._getDiagnostico}`)
-    });
-};
 
-// BUSCAR PACIENTES 2
-Consultorio.prototype.buscarPaciente = function(nombre){
-    result = `No se encontro Paciente ${nombre}`
-    this.pacientes.forEach(p => {
-        if (p._getNombre == nombre){
-            result = `> Paciente encontrado: ${p._getNombre} | ${p._getEdad} | ${p._getRut} | ${p._getDiagnostico}`;
-        }
-    });
-    return result;
-};
-*/
 
-/*
-// MOSTRAR PACIENTES 3
-Consultorio.prototype.mostrarTodosLosPacientes = function () {
-	this._getPaciente.map((paciente) => {
-		console.log("Nombre: " + paciente._getNombre);
-		console.log("Edad: " + paciente._getEdad);
-		console.log("Rut: " + paciente._getRut);
-		console.log("Diagnostico: " + paciente._getDiagnostico);
-		console.log("****************************************");
-	});
-};
-consultorioUno.mostrarTodosLosPacientes();
 
-// BUSCAR PACIENTES 3
-Consultorio.prototype.filtarPacientePorNombre = function (nombre) {
-	this._getPaciente
-		.filter((paciente) => paciente._getNombre == nombre)
-		.map((paciente) => {
-			console.log("Nombre: " + paciente._getNombre);
-			console.log("Edad: " + paciente._getEdad);
-			console.log("Rut: " + paciente._getRut);
-			console.log("Diagnostico: " + paciente._getDiagnostico);
-			console.log("****************************************");
-		});
-};
 
-consultorioUno.filtarPacientePorNombre("Juan");
 
-*/
 
